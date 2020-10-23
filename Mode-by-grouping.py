@@ -114,7 +114,7 @@ def sizes():
         elif space == 0:
             space -= len(size2) - 1
 
-        print("   ", size1, " " * (27 + space), end="") 
+        print("  ", size1, " " * (27 + space), end="") 
         frequency()  # Calling the frequency function to get the input from the user.
         size.append(size1)
         size1 = float(size1) + diff
