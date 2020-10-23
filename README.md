@@ -1,2 +1,2 @@
 # Mode-by-grouping
- A python program to evaluate mode by grouping method.
+<b>A python program to evaluate mode by the grouping method.</b>
