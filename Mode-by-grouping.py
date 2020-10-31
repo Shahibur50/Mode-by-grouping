@@ -13,13 +13,14 @@ size = []  # Class Interval/Size
 freq = []  # Frequencies
 
 groups = []  # An array/list to store the values of highest group in different groups.
+opt = 0
 
 
 def main():
-    '''
+    """
     The main function for execution of the program.
-    '''
-    global size
+    """
+    global size, opt
     global freq
     global groups
 
@@ -55,9 +56,13 @@ def main():
 
 
 def class_intervals():
-    '''
+    """
     A function to print the class intervals and to get the frequencies.
-    '''
+    """
+    upper = ""
+    lower = ""
+    n = 0
+
     while True:
         try:
             n = int(input("\n> Enter the number of class intervals: "))
@@ -96,9 +101,9 @@ def class_intervals():
 
 
 def sizes():
-    '''
+    """
     A function to print the size and to get the frequency inputs.
-    '''
+    """
     n = int(input("\n> Enter the number of sizes: "))
     size1 = float(input("> Enter the value of 1st size: "))
     size2 = float(input("> Enter the value of 2nd size: "))
@@ -122,9 +127,9 @@ def sizes():
 
 
 def frequency():
-    '''
+    """
     A function to get the value of frequency of the relative class intervals or size.
-    '''
+    """
     while True:
         try:
             value = int(input())
@@ -137,18 +142,18 @@ def frequency():
 
 
 def modal_class():
-    '''
+    """
     A function to return the modal class or mode(in case of size).
-    '''
+    """
     analyzer()  # Calling the analyzer function to get the values ready for calculation of mode.
     modal = statistics.mode(groups)
     return modal
 
 
 def analyzer():
-    '''
+    """
     A function to estimate and analyze the modal class or mode(in case of size).
-    '''
+    """
     group1()
     group2() 
     group3() 
@@ -158,11 +163,11 @@ def analyzer():
 
 
 def mode():
-    '''
+    """
     A function to calculate mode in case of class intervals.
     !> It calls the other functions which return the values of required values.
     !> It returns the value of mode to nearest 2nd decimal place.
-    '''
+    """
     try:
         z = round(l1() + ((f1() - f0()) / ((2 * f1()) - f0() - f2()) * h()), 2)
     except ZeroDivisionError:
@@ -176,47 +181,47 @@ def mode():
 
 
 def l1():
-    '''
+    """
     A function to return the value of (lower limit of modal class).
-    '''
-    l1 = ""
+    """
+    lower_limit = ""
     for i in modal_class():
         if i == "-":
             break
         else:
-            l1 += i
-    l1 = float(l1)
-    return l1
+            lower_limit += i
+    lower_limit = float(lower_limit)
+    return lower_limit
 
 
 def f0():
-    '''
+    """
     A function to return the value of (frequency of pre-modal class).
-    '''
-    f0 = freq[size.index(modal_class()) - 1]
-    return f0
+    """
+    modal_class_freq = freq[size.index(modal_class()) - 1]
+    return modal_class_freq
 
 
 def f1():
-    '''
+    """
     A function to return the value of (frequency of modal class).
-    '''
-    f1 = freq[size.index(modal_class())]
-    return f1
+    """
+    pre_modal_class_freq = freq[size.index(modal_class())]
+    return pre_modal_class_freq
 
 
 def f2():
-    '''
+    """
     A function to return the value of (frequency of next higher class or post-modal class).
-    '''
-    f2 = freq[size.index(modal_class()) + 1]
-    return f2
+    """
+    post_modal_class_freq = freq[size.index(modal_class()) + 1]
+    return post_modal_class_freq
 
 
 def h():
-    '''
+    """
     A function to return the value of (size of the modal class).
-    '''
+    """
     h1 = l1()
     h2 = ""
     for i in modal_class()[::-1]:
@@ -225,14 +230,14 @@ def h():
         else:
             h2 = i + h2
     h2 = float(h2)
-    h = h2 - h1
-    return h
+    width = h2 - h1
+    return width
 
 
 def class_interval_table():
-    '''
+    """
     A function to print the class interval table.
-    '''
+    """
     print("_______________________________________")
     print("                TABLE")
     print("---------------------------------------")
@@ -240,9 +245,9 @@ def class_interval_table():
 
 
 def size_table():
-    '''
+    """
     A function to print the size table.
-    '''
+    """
     print("_______________________________________")
     print("                TABLE")
     print("---------------------------------------")
@@ -250,101 +255,101 @@ def size_table():
 
 
 def group1():
-    '''
+    """
     A function to note the frequencies given by the user.
     !> It also returns the biggest value in this group.
-    '''
+    """
     m1 = []
     for i in range(len(size)):
         group = freq[i]
         m1.append(group)
 
-    mode = max(m1)
-    groups.append(size[freq.index(mode)])
+    mode1 = max(m1)
+    groups.append(size[freq.index(mode1)])
 
 
 def group2():
-    '''
+    """
     A function to group the frequencies in form of (twos) beginning with the (1st) item.
     !> It also returns the biggest value in this group.
-    '''
+    """
     m2 = []
     for i in range(0, len(size) - 1, 2):
         group = freq[i] + freq[i + 1]
         m2.append(group)
 
-    mode = max(m2)
-    groups.append(size[m2.index(mode) * 2])
-    groups.append(size[m2.index(mode) * 2 + 1])
+    mode2 = max(m2)
+    groups.append(size[m2.index(mode2) * 2])
+    groups.append(size[m2.index(mode2) * 2 + 1])
 
 
 def group3():
-    '''
+    """
     A function to group the frequencies in form of (twos) beginning with the (2nd) item.
     !> It also returns the biggest value in this group.
-    '''
+    """
     m3 = []
     for i in range(1, len(size) - 1, 2):
         group = freq[i] + freq[i + 1]
         m3.append(group)
 
-    mode = max(m3)
-    groups.append(size[m3.index(mode) * 2 + 1])
-    groups.append(size[m3.index(mode) * 2 + 2])
+    mode3 = max(m3)
+    groups.append(size[m3.index(mode3) * 2 + 1])
+    groups.append(size[m3.index(mode3) * 2 + 2])
 
 
 def group4():
-    '''
+    """
     A function to group the frequencies in form of (threes) beginning with the (1st) item.
     !> It also returns the biggest value in this group.
-    '''
+    """
     m4 = []
     for i in range(0, len(size) - 2, 3):
         group = freq[i] + freq[i + 1] + freq[i + 2]
         m4.append(group)
 
-    mode = max(m4)
-    groups.append(size[m4.index(mode) * 3])
-    groups.append(size[m4.index(mode) * 3 + 1])
-    groups.append(size[m4.index(mode) * 3 + 2])
+    mode4 = max(m4)
+    groups.append(size[m4.index(mode4) * 3])
+    groups.append(size[m4.index(mode4) * 3 + 1])
+    groups.append(size[m4.index(mode4) * 3 + 2])
 
 
 def group5():
-    '''
+    """
     A function to group the frequencies in form of (threes) beginning with the (2nd) item.
     !> It also returns the biggest value in this group.
-    '''
+    """
     m5 = []
     for i in range(1, len(size) - 2, 3):
         group = freq[i] + freq[i + 1] + freq[i + 2]
         m5.append(group)
 
-    mode = max(m5)
-    groups.append(size[m5.index(mode) * 3 + 1])
-    groups.append(size[m5.index(mode) * 3 + 2])
-    groups.append(size[m5.index(mode) * 3 + 3])
+    mode5 = max(m5)
+    groups.append(size[m5.index(mode5) * 3 + 1])
+    groups.append(size[m5.index(mode5) * 3 + 2])
+    groups.append(size[m5.index(mode5) * 3 + 3])
 
 
 def group6():
-    '''
+    """
     A function to group the frequencies in form of (threes) beginning with the (3rd) item.
     !> It also returns the biggest value in this group.
-    '''
+    """
     m6 = []
     for i in range(2, len(size) - 2, 3):
         group = freq[i] + freq[i + 1] + freq[i + 2]
         m6.append(group)
 
-    mode = max(m6)
-    groups.append(size[m6.index(mode) * 3 + 2])
-    groups.append(size[m6.index(mode) * 3 + 3])
-    groups.append(size[m6.index(mode) * 3 + 4])
+    mode6 = max(m6)
+    groups.append(size[m6.index(mode6) * 3 + 2])
+    groups.append(size[m6.index(mode6) * 3 + 3])
+    groups.append(size[m6.index(mode6) * 3 + 4])
 
 
 def software_info():
-    '''
+    """
     A function to print the information related to the software.
-    '''
+    """
     print("""
 Mode by grouping version 2.20.10.20
 
@@ -354,9 +359,9 @@ Licensed under MIT
 
 
 def full_license_info():
-    '''
+    """
     A funtion to print the full license info related to this software.
-    '''
+    """
     print("""
 MIT License
 
